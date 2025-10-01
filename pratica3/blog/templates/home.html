@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+    <h2>Olá, {{usuario}}!</h2>
+    <p>Hoje é {{data_atual|date:"d/m/Y"}}</p>
+    <p>Suas disciplinas: {{disciplina}}</p>
+
+    <!-- Condicionais de login -->
+    {% if is_logged_in %}
+        <p>Bem-vindo de volta!</p>
+    {% else %}
+        <p>Faça login para continuar.</p>
+    {% endif %}
+
+    <!-- Condicional de maioridade -->
+    {% if idade >= 18 %}
+        <p>Maior de idade</p>
+    {% else %}
+        <p>Menor de idade</p>
+    {% endif %}
+
+    <!-- Condicional para o papel do usuário -->
+    {% if role == "admin" %}
+        <p>Você tem privilégios de administrador.</p>
+    {% elif role == "user" %}
+        <p>Você tem privilégios de usuário comum.</p>
+    {% else %}
+        <p>Papel desconhecido.</p>
+    {% endif %}
+
+    <h2>Operação Matemática (Filtro 'add'):</h2>
+    <p>O número original é: {{ numero }}</p>
+    <p>O número original multiplicado por 2 é: {{ numero|floatformat:0|add:numero }}</p>
+
+    <!-- Tabela de Produtos -->
+    <h2>Lista de Produtos</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ produto.nome }}</td>
+                    <td>R$ {{ produto.preco|floatformat:2 }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">Nenhum produto disponível.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{% url 'inicial' %}">Página Inicial</a></p>
+    <p><a href="{% url 'contato' telefone='123456789' %}">Página de Contato</a></p>
+{% endblock %}
