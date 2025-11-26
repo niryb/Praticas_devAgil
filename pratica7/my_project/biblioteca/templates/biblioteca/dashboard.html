@@ -1,0 +1,45 @@
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}Dashboard - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="text-center my-5">
+    <h1 class="mb-4 text-primary">📚 Sistema de Biblioteca</h1>
+    <p class="lead mb-5">Gerencie seus Autores, Editoras e Livros de forma fácil e rápida.</p>
+
+    <div class="row justify-content-center">
+        <!-- Autor -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="card-title mb-3">Autores</h3>
+                    <p class="card-text text-center">Adicione, edite ou exclua autores do sistema.</p>
+                    <a href="{% url 'listar' 'autor' %}" class="btn btn-primary mt-3 w-75">Ver Autores</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editora -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="card-title mb-3">Editoras</h3>
+                    <p class="card-text text-center">Gerencie editoras cadastradas.</p>
+                    <a href="{% url 'listar' 'editora' %}" class="btn btn-success mt-3 w-75">Ver Editoras</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Livro -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="card-title mb-3">Livros</h3>
+                    <p class="card-text text-center">Cadastre, edite ou exclua livros.</p>
+                    <a href="{% url 'listar' 'livro' %}" class="btn btn-warning text-white mt-3 w-75">Ver Livros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

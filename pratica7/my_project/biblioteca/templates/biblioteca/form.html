@@ -1,0 +1,49 @@
+{% extends 'biblioteca/base.html' %}
+
+{% block title %}{{ entidade|capfirst }} - Formulário{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h1 class="mb-4 text-primary">
+        {% if form.instance.pk %}
+            ✏️ Editar {{ entidade|capfirst }}
+        {% else %}
+            ➕ Novo {{ entidade|capfirst }}
+        {% endif %}
+    </h1>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Erros no formulário:</strong>
+            <ul class="mb-0">
+                {% for field, errors in form.errors.items %}
+                    <li><strong>{{ field|capfirst }}:</strong> {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            {% for field in form %}
+                <div class="mb-3 col-md-6">
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">💾 Salvar</button>
+            <a href="{% url 'listar' entidade %}" class="btn btn-secondary">⬅️ Voltar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
