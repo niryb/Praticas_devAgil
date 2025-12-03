@@ -1,0 +1,79 @@
+{% extends 'biblioteca/base.html' %}
+{% block title %}Lista de {{ entidade|capfirst }}s{% endblock %}
+{% block content %}
+<h1 class="mb-4">Lista de {{ entidade|capfirst }}s</h1>
+
+{# Lógica: Mostra botão se a entidade não for livro OU se for livro e tiver permissão de adicionar #}
+{% if entidade != 'livro' or perms.biblioteca.add_livro %}
+<a href="{% url 'criar' entidade %}" class="btn btn-success mb-3">➕ Novo {{ entidade|capfirst }}</a>
+{% endif %}
+
+{% if objetos %}
+    <ul class="list-group">
+        {% for obj in objetos %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ obj }}</span>
+                <div>
+                    {# Botão Editar #}
+                    {% if entidade != 'livro' or perms.biblioteca.change_livro %}
+                      <a href="{% url 'editar' entidade obj.id %}" class="btn btn-primary btn-sm me-2">Editar</a>
+                    {% endif %}
+
+                    {# Botão Excluir #}
+                    {% if entidade != 'livro' or perms.biblioteca.delete_livro %}
+                      <a href="{% url 'deletar' entidade obj.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+    
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1">&laquo; Primeira</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo; Primeira</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+            </li>
+          {% endif %}
+    
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+          </li>
+    
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Próxima</a>
+            </li>
+             <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Última &raquo;</a>
+            </li>
+          {% endif %}
+    
+        </ul>
+      </nav>
+    {% endif %}
+{% else %}
+    <p class="text-muted">Nenhum {{ entidade }} cadastrado.</p>
+{% endif %}
+{% endblock %}

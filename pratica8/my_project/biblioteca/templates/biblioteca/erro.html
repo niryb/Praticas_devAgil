@@ -1,0 +1,7 @@
+{% extends 'biblioteca/base.html' %}
+{% block title %}Erro{% endblock %}
+{% block content %}
+<h2 class="text-danger">Erro</h2>
+<p>{{ mensagem }}</p>
+<a href="/biblioteca/livro/" class="btn btn-secondary">Voltar</a>
+{% endblock %}
